@@ -1,6 +1,6 @@
 var Classify = Classify || {};
 
-var Classify.newClass = function(config) {
+Classify.newClass = function(config) {
     var newObject = function(constructorConfig) {
         var self = this;
 
@@ -73,7 +73,7 @@ var Classify.newClass = function(config) {
     return newObject;
 };
 
-var Classify.IInterfacify = newClass({
+Classify.IInterfacify = newClass({
     constructor: function(config) {
         //TODO: Implement a requiement property for the config object, to allow
         //      Interfaces to specify methods or properties that they need.
