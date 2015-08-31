@@ -73,7 +73,7 @@ Classify.newClass = function(config) {
     return newObject;
 };
 
-Classify.IInterfacify = newClass({
+Classify.IInterfacify = Classify.newClass({
     constructor: function(config) {
         //TODO: Implement a requiement property for the config object, to allow
         //      Interfaces to specify methods or properties that they need.
