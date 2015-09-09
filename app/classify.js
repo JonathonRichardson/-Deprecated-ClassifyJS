@@ -91,4 +91,4 @@ Classify.IInterfacify = Classify.newClass({
             });
         }
     }
-})
+});
