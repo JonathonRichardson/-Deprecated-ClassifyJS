@@ -10,7 +10,10 @@ var gulp         = require('gulp'),
     notify       = require('gulp-notify'),
     cache        = require('gulp-cache'),
     livereload   = require('gulp-livereload'),
+    replace      = require('gulp-replace'),
+    pkg          = require('./package.json'),
     del          = require('del');
+
 
 gulp.task('clean', function(cb) {
   del(['dist']);
@@ -20,6 +23,10 @@ gulp.task('clean', function(cb) {
 gulp.task('js', ['clean'], function() {
   return gulp.src('src/**/*.js')
     .pipe(concat('classify.js'))
+
+    //Update the version number from the source file
+    .pipe(replace('{{VERSION}}',pkg.version)) 
+
     .pipe(gulp.dest('dist'))
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
