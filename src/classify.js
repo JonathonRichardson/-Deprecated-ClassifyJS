@@ -1,4 +1,12 @@
-var Classify = Classify || {};
+var Classify = {};
+
+var ko;
+try {
+    ko = require('knockout');
+}
+catch(error) {
+    // Do nothing.
+}
 
 Classify.newClass = function(config) {
     var newObject = function(constructorConfig) {
@@ -16,19 +24,41 @@ Classify.newClass = function(config) {
 
         // Only support computed methods if knockout has been loaded
         if (!_.isUndefined(ko)) {
-            jQuery.each(self._ko_computeds, function (key, value) {
-                if (typeof value === 'function') {
-                    var wrappedMethod = function () {
-                        var returnVal;
-                        try {
-                            returnVal = value.call(self, arguments);
-                        }
-                        catch (err) {
-                            return undefined;
-                        }
-                        return returnVal;
-                    };
-                    self[key] = ko.computed(wrappedMethod, self);
+            $.each(self._ko_computeds, function (key, value) {
+                var functionToWrap;
+                var subscription;
+
+                if (_.isFunction(value)) {
+                    functionToWrap = value;
+                }
+                else if (_.keys(value).length > 0) {
+                    if ('function' in value) {
+                        functionToWrap = value.function;
+                    }
+                    if ('subscription' in value) {
+                        subscription = value.subscription;
+                    }
+                }
+                else {
+                    return;
+                }
+
+                var wrappedMethod = function () {
+                    var returnVal;
+                    try {
+                        returnVal = functionToWrap.call(self, arguments);
+                    }
+                    catch (err) {
+                        return undefined;
+                    }
+                    return returnVal;
+                };
+                self[key] = ko.computed(wrappedMethod, self);
+
+                if (_.isFunction(subscription)) {
+                    self[key].subscribe(function() {
+                        subscription.apply(self, arguments);
+                    });
                 }
             });
         }
@@ -65,7 +95,7 @@ Classify.newClass = function(config) {
 
     // Add all of the configured methods to the object prototype.
     if ('methods' in config) {
-        jQuery.each(config.methods, function(key, value) {
+        $.each(config.methods, function(key, value) {
             newObject.addMethod(key, value);
         });
     }
@@ -75,7 +105,7 @@ Classify.newClass = function(config) {
 
 Classify.IInterfacify = Classify.newClass({
     constructor: function(config) {
-        //TODO: Implement a requiement property for the config object, to allow
+        //TODO: Implement a requirement property for the config object, to allow
         //      Interfaces to specify methods or properties that they need.
     },
     methods: {
@@ -83,7 +113,7 @@ Classify.IInterfacify = Classify.newClass({
             var self = this;
 
             /* Apply all the properties of this interface to the new object */
-            jQuery.each(_.keys(self), function(index, property) {
+            $.each(_.keys(self), function(index, property) {
                 //  TODO:  Add error checking/warning to see if we're clobbering anything on the object
                 if ( (!property.match(/^_/)) && (property !== 'applyTo') ) {
                     thingToInterfacify.prototype[property] = self[property];
@@ -92,5 +122,3 @@ Classify.IInterfacify = Classify.newClass({
         }
     }
 });
-
-Classify.Version = '{{VERSION}}';
