@@ -120,3 +120,5 @@ Classify.IInterfacify = Classify.newClass({
         }
     }
 });
+
+Classify.Version = '{{VERSION}}';
