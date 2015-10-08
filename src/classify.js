@@ -1,5 +1,3 @@
-var Classify = {};
-
 var ko;
 try {
     ko = require('knockout');

@@ -1,6 +1,6 @@
-define(["require","exports","module","jquery","underscore"],function(require,exports,module,$,_){
-
 var Classify = {};
+(function() {
+
 var ko;
 try {
     ko = require('knockout');
@@ -124,6 +124,5 @@ Classify.IInterfacify = Classify.newClass({
     }
 });
 
-return Classify;
 
-});
+})();
