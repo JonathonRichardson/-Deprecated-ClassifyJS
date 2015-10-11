@@ -14,6 +14,7 @@ var gulp         = require('gulp'),
     insert       = require('gulp-insert'),
     _            = require('underscore'),
     eol          = require('gulp-eol'),
+    gutil        = require('gulp-util'),
     del          = require('del');
 
 gulp.task('bump', function(){
@@ -34,6 +35,10 @@ gulp.task('js', ['clean', 'bump'], function() {
 
   var code    = gulp.src('src/**/*.js').pipe(concat('classify.js'));
   var amdcode = gulp.src('src/**/*.js').pipe(concat('classify.js'));
+
+  //JSHint
+  gutil.log('Running JSHint');
+  gulp.src('src/**/*.js').pipe(jshint()).pipe(jshint.reporter('default'));
 
   var pipes = [code, amdcode];
 
