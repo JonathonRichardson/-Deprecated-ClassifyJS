@@ -1,6 +1,6 @@
 {
   "name": "ClassifyJS",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "Library to implement constructors and classes.",
   "license": "Apache-2.0",
   "main": "index.js",
