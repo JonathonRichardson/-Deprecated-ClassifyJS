@@ -21,7 +21,7 @@ Classify.newClass = function(config) {
         }
 
         // Only support computed methods if knockout has been loaded
-        if (!_.isUndefined(ko) && !_.isUndefined(self._ko_computeds) && _.isArray(self._ko_computeds)) {
+        if (!_.isUndefined(ko) && !_.isUndefined(self._ko_computeds)) {
             $.each(self._ko_computeds, function (key, value) {
                 var functionToWrap;
                 var subscription;
