@@ -124,7 +124,7 @@ Classify.IInterfacify = Classify.newClass({
     }
 });
 
-Classify.Version = '0.0.32';
+Classify.Version = '0.0.33';
 
 return Classify;
 
