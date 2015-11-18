@@ -26,7 +26,7 @@ var getParent = function(newClassObj) {
 
 var getParentRecursive = function(parents) {
     if (!_.isArray(parents)) {
-        parents = [parents]
+        parents = [parents];
     }
 
     var nextParent = getParent( parents[0] );
@@ -62,7 +62,7 @@ Classify.newClass = function(config) {
                 }
                 else if (_.keys(value).length > 0) {
                     if ('function' in value) {
-                        functionToWrap = value.function;
+                        functionToWrap = value['function']; // function is a reserved word and will cause YUICompressor to scream
                     }
                     if ('subscription' in value) {
                         subscription = value.subscription;
