@@ -1,13 +1,7 @@
 define(["require","exports","module","jquery","underscore"],function(require,exports,module,$,_){
 
 var Classify = {};
-var ko;
-try {
-    ko = require('knockout');
-}
-catch(error) {
-    // Do nothing.
-}
+var $ = $ || jQuery;
 
 var noOp = function() {};
 
@@ -53,6 +47,19 @@ Classify.newClass = function(config) {
         _.each(familyTree, function(newClassObj) {
             newClassObj._innerConstructor.call(self, constructorConfig);
         });
+
+        var ko = ko;
+        if ('ko' in window) {
+            ko = window.ko;
+        }
+        else if (_.isUndefined(ko)) {
+            try {
+                ko = require('knockout');
+            }
+            catch(error) {
+                // Do nothing.
+            }
+        }
 
         // Only support computed methods if knockout has been loaded
         if (!_.isUndefined(ko) && !_.isUndefined(self._ko_computeds)) {
@@ -155,7 +162,7 @@ Classify.IInterfacify = Classify.newClass({
     }
 });
 
-Classify.Version = '0.0.39';
+Classify.Version = '0.0.42';
 
 return Classify;
 
